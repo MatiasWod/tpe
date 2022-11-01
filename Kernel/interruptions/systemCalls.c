@@ -41,15 +41,6 @@ void sys_time(char * buffer){
     get_time(buffer);
 }
 
-int sys_hasTicked(){
-    static unsigned long last_tick = 0;
-    unsigned long current_tick = ticks_elapsed();
-    if(last_tick == current_tick){
-        return 0;
-    }
-    last_tick = current_tick;
-    return 1;
-}
 
 void sys_clearWindow(){
     clearAll();
@@ -139,6 +130,10 @@ void sys_set_font(int fontNumber){
     global_font = fontNumber;
 }
 
+int sys_get_font(){
+  return global_font;
+}
+
 // Note: r10 & r8 are used for screen id and syscall id respectively.
 int sysCallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t r10, uint64_t r8) {
   switch(r8){
@@ -153,40 +148,40 @@ int sysCallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t r10, ui
         return 0;
 
       case 3:
-        return sys_hasTicked();
-
-      case 4:
         sys_clearWindow();
         return 0;
 
-      case 5:
+      case 4:
         sys_restartCursor();
         return 0;
 
-      case 6:
+      case 5:
         sys_uniqueWindow();
         return 0;
 
-      case 7:
+      case 6:
         return sys_printmem((uint64_t *) rdi);
 
-      case 8:
+      case 7:
         sys_date((char *)rdi);
         return 0;
 
-      case 9:
+      case 8:
         sys_infoReg();
         return 0;
-      case 10:
+      case 9:
         sys_paint((uint8_t*) rdi, (uint32_t) rsi);
         return 0;
-      case 11:
+      case 10:
         return sys_seconds_elapsed();
-      case 12:
+      case 11:
         return sys_miliseconds_elapsed();
-      case 13:
+      case 12:
         sys_set_font((int) rdi);
         return 0;
+      case 13:
+        return sys_get_font();
+
   }
   return -1;
 }

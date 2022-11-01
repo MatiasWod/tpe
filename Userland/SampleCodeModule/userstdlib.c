@@ -8,7 +8,6 @@
 extern int  sys_write(uint64_t fd, char * buffer, uint64_t size);
 extern int  sys_read(uint64_t fd, char * buffer, uint64_t size);
 extern void sys_time(char * buffer);
-extern int  sys_tick();
 extern void sys_clear();
 extern void sys_restartCursor();
 extern void sys_uniqueWindow();
@@ -19,6 +18,7 @@ extern void sys_paint(color_t color, uint32_t position);
 extern int sys_seconds_elapsed();
 extern int sys_miliseconds_elapsed();
 extern int sys_set_font(int fontNumber);
+extern int sys_get_font();
 
 void paint(color_t color, uint32_t position){
     sys_paint(color, position);
@@ -60,10 +60,6 @@ void get_time(char * buffer){
 
 void get_date(char * buffer){
   sys_date(buffer);
-}
-
-int tick(){
-  return sys_tick();
 }
 
 int get_char(){
@@ -126,7 +122,6 @@ char * my_strncpy( char * destination, char * source, int size){
 	return ret;
 }
 
-// https://stackoverflow.com/questions/1735236/how-to-write-my-own-printf-in-c
 void my_printf(const char * frmt, ...){
   // Module 1: Initializing Myprintf's arguments using stdarg.h
   va_list arg;   // declares a variable which we use to manipulating the argument list contaning variable arugments
@@ -221,4 +216,8 @@ void sleep(int seconds){
 
 void setFont(int fontNumber){
   sys_set_font(fontNumber);
+}
+
+int getFont(){
+  return sys_get_font();
 }

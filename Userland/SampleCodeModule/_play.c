@@ -29,6 +29,8 @@ char lastLetter2 = 'j';
 //1920 + 120 = 2040 -> primera pos player2
 
 void play(unsigned int fd){
+    int savefont=getFont();
+    setFont(2);
     clearScreen();
     char letter[1] = {0};
     int flag=1;
@@ -57,6 +59,7 @@ void play(unsigned int fd){
         }
         if(crash!=0){
             endGame();
+            setFont(savefont);
             flag=0;
         }
         sleepMiliseconds(55);
@@ -99,7 +102,6 @@ int endGame(){
 int drawMovement(char c, int player){
     int firstColumn = 0;
     int lastColumn=0;
-
     if(player==1) {
         color_t color=RED;
         if ((lastLetter1=='a' && c=='d') || (lastLetter1=='w' && c=='s') || (lastLetter1=='s' && c=='w') || (lastLetter1=='d' && c=='a')){

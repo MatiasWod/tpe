@@ -27,7 +27,6 @@ int read_char();
 // time.h
 void get_time(char * buffer);
 void get_date(char * buffer);
-int tick();
 int seconds_elapsed();
 int miliseconds_elapsed();
 void sleepMiliseconds(int miliseconds);
@@ -44,5 +43,6 @@ void uniqueWindow();
 void infoReg();
 void paint(color_t color, uint32_t position);
 void setFont(int fontNumber);
+int getFont();
 
 #endif /* _USERSTDLIB_H_*/

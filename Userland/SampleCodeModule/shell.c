@@ -154,11 +154,10 @@ void help(void){
     my_printf("   'printmem'   - Realiza un volcado de memoria de 32 bytes a partir de la direccion recibida como parametro.\n");
 
     //play
-    my_printf("   'play'       - Divide la pantalla en 4 ventanas, donde:\n");
-    my_printf("          1. Se podra visializar la hora actualizandose permanentemente.\n");
-    my_printf("          2. Se dispondra de un cronometro capaz de ser operado desde el teclado.\n");
-    my_printf("          3. Se podra jugar al sudoku.\n");
-    my_printf("          4. Se podra jugar al ahorcado.\n");
+    my_printf("   'play'       - Se inicia el juego Tron Light Cycles\n");
+    my_printf("                  Jugador 1 se mueve con AWSD\n");
+    my_printf("                  Jugador 2 se mueve con IJKL\n");
+
 
     //Division by 0
     my_printf("   'dividezero' - Genera una excepcion causada por dividir por 0.\n");

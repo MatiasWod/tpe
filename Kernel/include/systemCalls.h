@@ -12,7 +12,6 @@
 int sys_write(uint64_t fd, char * buffer, uint64_t size);
 int sys_read(uint64_t fd, char * buffer, uint64_t size);
 void sys_date(char * buffer);
-int sys_hasTicked();
 void sys_time(char * buffer);
 void sys_date(char * buffer);
 void sys_clearWindow();
@@ -25,5 +24,6 @@ void sys_paint(uint8_t* color, uint32_t position);
 int sys_seconds_elapsed();
 int sys_miliseconds_elapsed();
 void sys_set_font(int fontNumber);
+int sys_get_font();
 
 #endif /* SYSTEMCALLS_H_ */
