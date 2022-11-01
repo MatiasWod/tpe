@@ -163,28 +163,28 @@ int sysCallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t r10, ui
         sys_restartCursor();
         return 0;
 
-      case 7:
+      case 6:
         sys_uniqueWindow();
         return 0;
 
-      case 8:
+      case 7:
         return sys_printmem((uint64_t *) rdi);
 
-      case 10:
+      case 8:
         sys_date((char *)rdi);
         return 0;
 
-      case 11:
+      case 9:
         sys_infoReg();
         return 0;
-      case 12:
+      case 10:
         sys_paint((uint8_t*) rdi, (uint32_t) rsi);
         return 0;
-      case 13:
+      case 11:
         return sys_seconds_elapsed();
-      case 14:
+      case 12:
         return sys_miliseconds_elapsed();
-      case 15:
+      case 13:
         sys_set_font((int) rdi);
         return 0;
   }

@@ -109,7 +109,7 @@ sys_restartCursor:
 sys_uniqueWindow:
   push rbp
   mov rbp, rsp
-  mov r8, 7
+  mov r8, 6
   int 80h
   mov rsp, rbp
   pop rbp
@@ -119,7 +119,7 @@ sys_uniqueWindow:
 sys_date:
   push rbp
   mov rbp, rsp
-  mov r8, 10
+  mov r8, 8
   int 80h
   mov rsp, rbp
   pop rbp
@@ -128,7 +128,7 @@ sys_date:
 sys_infoReg:
     push rbp
     mov rbp, rsp
-    mov r8, 11
+    mov r8, 9
     int 80h
     mov rsp, rbp
     pop rbp
@@ -137,7 +137,7 @@ sys_infoReg:
 sys_paint:
     push rbp
     mov rbp, rsp
-    mov r8, 12
+    mov r8, 10
     int 80h
     mov rsp, rbp
     pop rbp
@@ -146,7 +146,7 @@ sys_paint:
 sys_seconds_elapsed:
     push rbp
     mov rbp, rsp
-    mov r8, 13
+    mov r8, 12
     int 80h
     mov rsp, rbp
     pop rbp
@@ -155,7 +155,7 @@ sys_seconds_elapsed:
 sys_miliseconds_elapsed:
     push rbp
     mov rbp, rsp
-    mov r8, 14
+    mov r8, 12
     int 80h
     mov rsp, rbp
     pop rbp
@@ -165,7 +165,7 @@ sys_set_font:
     push rbp
     mov rbp, rsp
 
-    mov r8, 15
+    mov r8, 13
     int 80h
 
     mov rsp, rbp
@@ -199,7 +199,7 @@ sys_printmem:
     push rbp
     mov rbp, rsp
     
-    mov r8, 8
+    mov r8, 7
     int 80h
     
     mov rsp, rbp
