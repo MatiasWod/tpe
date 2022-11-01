@@ -40,7 +40,6 @@ int atoi(char * str);
 // screen.h
 void clearScreen();
 void restartCursor();
-void divideWindow();
 void uniqueWindow();
 void infoReg();
 void paint(color_t color, uint32_t position);

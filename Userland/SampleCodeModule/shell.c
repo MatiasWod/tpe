@@ -165,6 +165,9 @@ void help(void){
 
     //Invalid operation
     my_printf("   'invalidop'  - Genera una excepcion causada por una operacion invalida.\n");
+    my_printf("   'setsmallfont' - Setea la fuente pequena\n");
+    my_printf("   'setnormalfont' - Setea la fuente normal\n");
+    my_printf("   'setbigfont' - Setea la fuente grande\n");
 }
 
 void time(void){
