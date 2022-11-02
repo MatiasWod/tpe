@@ -1,4 +1,4 @@
-# CFL Kernel
+# Kernel
 
 | Integrante | Legajo |
 | --- | --- |
@@ -21,6 +21,7 @@
   * [inforeg](#inforeg)
   * [printmem](#printmem)
   * [time](#time)
+  * [play](#play)
   * [setsmallfont](#setsmallfont)
   * [setnormalfont](#setnormalfont)
   * [setbigfont](#setbigfont)
@@ -42,13 +43,13 @@
 
 # Descripción general
 
-CFL Kernel es un pequeño sistema operativo desarrollado a partir de Pure64, en el marco de la materia Arquitectura de Computadoras.
+Se ha desarrollado un pequeño sistema operativo a partir de Pure64, en el marco de la materia Arquitectura de Computadoras.
 
 Es posible interactuar con el sistema a través de una terminal, que permite ejecutar diversos comandos para verificar su funcionamiento.
 
 Para su utilización es necesario tener acceso a un teclado; el mouse no es utilizado.
 
-> ⚠️ CFL Kernel supone que se posee de un teclado con [distrubución ANSI "United States"](https://upload.wikimedia.org/wikipedia/commons/5/51/KB_United_States-NoAltGr.svg).
+> ⚠️ Kernel supone que se posee de un teclado con [distrubución ANSI "United States"](https://upload.wikimedia.org/wikipedia/commons/5/51/KB_United_States-NoAltGr.svg).
 
 # Compilación y ejecución del kernel
 
@@ -132,18 +133,20 @@ Programa que intenta ejecutar una instrucción inexistente/invalida. El procesad
 
 Programa que imprime a pantalla una lista de los registros de uso general junto al valor que almacenaban en el momento que se tomó el snapshot (para tomar snapshot utilizar '-')
 
-> 🗣 Para guardar los registros en un cierto momento y luego poder imprimirlos con el comando, apretar la tecla $F10$.
-
 ### `printmem`
 
 Luego de ingresar printmem se le pedira al usuario una posicion de memoria que debe cumplir ciertos requisitos para ser una dirección válida:
 
 - Debe ser un valor hexadecimal válido
-- Debe ser menor a $0xFFFFFFFF8$. Esto se debe a que ese es el límite del mapa de memoria de QEMU.
+- Debe ser menor a (0x20000000 - 32). Esto se debe a que ese es el límite del mapa de memoria de QEMU.
 
 ### `time`
 
 Programa que imprime en pantalla la fecha y hora actual. Dicha fecha y hora es desplegada en GMT-3.
+
+### `play`
+
+Al ejecutar play se comenzara jugar al juego 'Tron Light Cycles'. Hay dos jugadores el rojo y el azul, el jugador rojo se movera con las teclas 'wasd', mientras que el jugador aul se movera con 'ijkl'.
 
 ### `setsmallfont`
 
@@ -155,24 +158,17 @@ Cambia la fuente a una fuente con caracteres de tamaño mediano.
 
 ### `setbigfont`
 
-Cambia la fuente a una fuente con caracteres granes.
+Cambia la fuente a una fuente con caracteres grandes.
 
 
 
 # Teclas para ejecutar ciertas acciones
 
-Para ejecutar ciertas acciones que disrrumpen el funcionamiento normal de la terminal, se han asignado teclas especiales del teclado.
-
 Recordar que se supone que se posee de un teclado con [distrubución ANSI "United States"](https://upload.wikimedia.org/wikipedia/commons/5/51/KB_United_States-NoAltGr.svg).
 
 | Acción | Tecla asociada |
 | --- | --- |
-| Cancelar la ejecución de un programa que se está ejecutando en la pantalla completa | F1 |
-| Pausar y reanudar la ejecución de un programa que se está ejecutando en la pantalla completa | F2 |
-| Pausar y reanudar la ejecución del programa que se está ejecutando en la parte izquierda en la pantalla dividida | F3 |
-| Pausar y reanudar la ejecución del programa que se está ejecutando en la parte derecha en la pantalla dividida | F4 |
-| Salir del modo de pantalla dividida y cancelar la ejecución de ambos programas que se están ejecutando | ESC |
-| Guardar el contenido de los registros de uso general para luego imprimirlos usando el comando inforeg | F10 |
+| Saca una snapshot de los registros | - |
 
 # System Calls implementadas
 
@@ -180,11 +176,11 @@ Se debe generar una interrupción del tipo 80 para ejecutar la system call desea
 
 Los registros que se detallan a continuación deben poseer los parámetros para la ejecución de la system call.
 
-En *RAX* se indica qué system call se desea ejecutar.
+En *R8* se indica qué system call se desea ejecutar.
 
 El valor de retorno de la system call se obtendrá en *RAX*.
 
-| System Call | RAX | RDI | RSI | RDX |
+| System Call | R8 | RDI | RSI | RDX |
 | --- | --- | --- | --- | --- |
 | Read | 0x00 | int fd | char * buf | int count |
 | Write | 0x01 | int fd | char * buf | int count |
@@ -197,8 +193,9 @@ El valor de retorno de la system call se obtendrá en *RAX*.
 | Register Info | 0x08 |  |  |  |
 | Paint System | 0x09 | color_t color | uint32_t position |  |
 | Seconds Elapsed | 0x0A |  |  |  |
-| Miliseconds Elapsed | 0x0B | s |  |  |
-| Set Character Font | 0x0B | uint64_t fontNumber |  |  |
+| Miliseconds Elapsed | 0x0B |  |  |  |
+| Set Character Font | 0x0C | uint64_t fontNumber |  |  |
+| Get Character Font | 0x0D | |  |  |
 
 ### Read (0x00)
 
@@ -218,12 +215,10 @@ Los file descriptor disponibles son:
 
 |   |   |
 |---|---|
-| 1 | Standart Output |
+| 0 | Standart Input |
+| 1 | Standard Output |
 | 2 | Standard Error |
-| 3 | Left Output |
-| 4 | Left Error |
-| 5 | Right Output |
-| 6 | Right Error |
+
 
 ### Get Time (0x02)
 
@@ -280,3 +275,6 @@ Retorna la cantidad de milisegundos desde que se inicio el kernel.
 Recibe un uint32_t de argumento que es el id de la fuente.
 
 Modifica la fuente actual a la fontNumber recibida.
+
+### Get Character Font (0x0D)
+Devuelve la fuente actual.

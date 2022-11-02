@@ -135,6 +135,7 @@ void print_mem(void){
     sprint(STDERR, msg_error3);
     put_char(STDOUT, '\n');
   }
+
 }
 
 void help(void){
@@ -152,6 +153,7 @@ void help(void){
 
     //printmem
     my_printf("   'printmem'   - Realiza un volcado de memoria de 32 bytes a partir de la direccion recibida como parametro.\n");
+    my_printf("                  Primero se ejecuta el comando y luego se indica la direccion sin 0x\n");
 
     //play
     my_printf("   'play'       - Se inicia el juego Tron Light Cycles\n");
