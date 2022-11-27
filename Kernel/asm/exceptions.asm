@@ -5,44 +5,8 @@ EXTERN printRegisterFormat
 EXTERN newLine
 EXTERN main
 EXTERN getStackBase
+GLOBAL load_registers
 section .text
-
-give_control_to_user:
-    call getStackBase	        ; Get thet stack address
-	mov rsp, rax				; Set up the stack with the returned address
-	call main
- 
- 
-    ;   Retrieved from https://os.phil-opp.com/handling-exceptions/ 
-    ;   The function must print the registers mentioned below in the following order:
-    ;   RAX R15 R14 R13 R12 R11 R10 R9 R8 RSI RDI RBP RDX RCX RBX RIP CS RFLAGS RSP SS
-    ;   because they were pushed to the stack in reverse order (checked using GDB).
-    ;   Notice that RIP will point to the instruction that caused the exception.
-
-    ;   -- lower part of the stack --
-    ;	RBP
-    ;   RIP    -> calling function 
-    ;   RAX
-    ;   R15
-    ;   R14
-    ;   R13
-    ;   R12
-    ;   R11
-    ;   R10
-    ;   R9
-    ;   R8
-    ;   RSI
-    ;   RDI
-    ;   RBP
-    ;   RDX
-    ;   RCX
-    ;   RBX
-    ;   RIP     -> instruction that caused the exception
-    ;   CS
-    ;   RFLAGS
-    ;   RSP
-    ;   SS  
-    ;   -- upper part of the stack --
 
   print_registers:
       push rbp
@@ -65,7 +29,52 @@ give_control_to_user:
       pop rbp
       ret
 
+
+
+
+; Retreived from https://os.phil-opp.com/handling-exceptions/ 
+    ; STACK
+    ;    RBP     -> stack frame
+    ;   RIP     -> dirección de retorno
+    ;   rax
+    ;   rbx
+    ;   rcx
+    ;   rdx
+    ;   rbp
+    ;   rdi
+    ;   rsi
+    ;   r8
+    ;   r9
+    ;   r10
+    ;   r11
+    ;   r12
+    ;   r13
+    ;   r14
+    ;   r15
+    ;   RIP     -> instruction that caused the exception -> this is pushed by the microproccesor
+    ;   CS
+    ;   RFLAGS
+    ;   RSP
+    ;   SS
+
+load_registers:
+    enter 0, 0
+
+    mov rbx, 0
+.loop:
+    mov rax, [rbp+rbx+16]
+    mov [registers1+rbx], rax
+    add rbx, 8
+    cmp rbx, length1
+    jne .loop
+    
+    mov rax, registers
+    leave
+    ret
+
+
 section .data
+      length1 equ 20*8
       segmentSS db " SS = ", 0
       rflags db " RFLAGS = ", 0
       segmentCS db " CS = ", 0
@@ -88,3 +97,6 @@ section .data
       registerR15 db " R15 = ", 0
       registers dq  registerRAX, registerR15, registerR14, registerR13, registerR12, registerR11, registerR10,registerR9, registerR8, registerRSI, registerRDI, registerRBP, registerRDX, registerRCX, registerRBX, registerRIP, segmentCS, rflags, registerRSP, segmentSS
       length equ $-registers
+      
+section .bss
+    registers1 resq 20

@@ -19,6 +19,9 @@ EXTERN irqDispatcher
 EXTERN sysCallDispatcher
 EXTERN print_registers
 EXTERN exceptionDispatcher
+EXTERN load_registers
+EXTERN getStackBase
+
 SECTION .text
 
 %macro pushState 0
@@ -57,7 +60,37 @@ SECTION .text
 	pop rbx
 %endmacro
 
+
+%macro saveContext 0 
+	push rax ;se utiliza RAX para pasar los punteros
+	mov rax, [rsp+8]
+	mov [current_rip],rax
+	add rsp,24
+	mov rax, [rsp+8]
+	mov [current_rsp],rax
+	sub rsp,24
+	pop rax
+	mov [current_gp_registers], rax
+	mov [current_gp_registers+8], r15
+	mov [current_gp_registers+16], r14
+	mov [current_gp_registers+24], r13
+	mov [current_gp_registers+32], r12
+	mov [current_gp_registers+40], r11
+	mov [current_gp_registers+48], r10
+	mov [current_gp_registers+56], r9
+	mov [current_gp_registers+64], r8
+	mov [current_gp_registers+72], rsi
+	mov [current_gp_registers+80], rdi
+	mov [current_gp_registers+88], rbp
+	mov [current_gp_registers+96], rdx
+	mov [current_gp_registers+104], rcx
+	mov [current_gp_registers+112], rbx
+	
+%endmacro
+
+
 %macro irqHandlerMaster 1
+	;saveContext
 	push rsp
 	pushState
 
@@ -74,17 +107,23 @@ SECTION .text
 %endmacro
 
 %macro exceptionHandler 1
-	pushState
+    mov rsi, rsp
 
-	call print_registers
+    pushState
+    mov rdi, %1
+    call exceptionDispatcher
 
-	mov rdi, %1 ; pasaje de parametro
-	call exceptionDispatcher
+    popState
 
-	popState
-	iretq
-
+    call getStackBase
+    mov [rsp + 3*8], rax 
+    mov rax, 0x400000 
+    mov [rsp], rax
+    iretq
+	
 %endmacro
+
+
 _hlt:
 	sti
 	hlt
@@ -157,9 +196,14 @@ _sysCallHandler:
 	iretq
 
 haltcpu:
-	cli
+	sti
 	hlt
+	cli
 	ret
 
 SECTION .bss
 	aux resq 1
+	current_rip resq 1
+	current_rsp resq 1
+	current_gp_registers resq 15
+	registers_for_inforeg resq 16
