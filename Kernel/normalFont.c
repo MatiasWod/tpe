@@ -4,7 +4,7 @@
 #include <normalFont.h>
 #include <stdlib.h>
 	/// character bitmap for each encoding
-static const unsigned char pixel_normal_chars[] = {
+static  unsigned char pixel_normal_chars[] = {
 	________,
 	________,
 	________,

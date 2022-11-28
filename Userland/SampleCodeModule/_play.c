@@ -66,7 +66,7 @@ void play(unsigned int fd){
     }
 }
 
-int endGame(){
+void endGame(){
     clearScreen();
     if(crash==1){
         char str[13] = "Gano el azul";
@@ -99,7 +99,7 @@ int endGame(){
 
 }
 
-int drawMovement(char c, int player){
+void drawMovement(char c, int player){
     int firstColumn = 0;
     int lastColumn=0;
     if(player==1) {

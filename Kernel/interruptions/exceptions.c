@@ -33,7 +33,6 @@ static void excepHandler(char * msg, uint64_t * registers){
 	newLine();
 
     newLine();
-    char buffer[17];
     for (int i = 0; i < ALL_REGISTER_COUNT; i++) {
         print(register_names[i]);
         printRegisterFormat(registers[i]);

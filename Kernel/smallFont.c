@@ -5,7 +5,7 @@
 #include <stdint.h>
 
 	/// character bitmap for each encoding
-static const unsigned char pixel_small_chars[] = {
+static  unsigned char pixel_small_chars[] = {
 	________,
 	________,
 	________,

@@ -25,6 +25,7 @@ static color_t BLUE = {0x00,0x00,0xFF};
 #define AREA WIDTH*HEIGHT
 
 void play(unsigned int fd);
-int drawMovement(char c, int player);
+void drawMovement(char c, int player);
 int checkCollision(int player);
+void endGame();
 #endif

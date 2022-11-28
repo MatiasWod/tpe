@@ -13,7 +13,7 @@ static char buffer[64] = { '0' };
 static const struct vbe_mode_info_structure * graphicModeInfo = (struct vbe_mode_info_structure *) 0x5C00;
 int CHAR_HEIGHT = 16;
 int CHAR_WIDTH = 9;
-global_font = 2;
+int global_font = 2;
 
 static void getNextPosition();
 static void checkSpace();
