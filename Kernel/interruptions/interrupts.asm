@@ -61,32 +61,7 @@ SECTION .text
 %endmacro
 
 
-%macro saveContext 0 
-	push rax ;se utiliza RAX para pasar los punteros
-	mov rax, [rsp+8]
-	mov [current_rip],rax
-	add rsp,24
-	mov rax, [rsp+8]
-	mov [current_rsp],rax
-	sub rsp,24
-	pop rax
-	mov [current_gp_registers], rax
-	mov [current_gp_registers+8], r15
-	mov [current_gp_registers+16], r14
-	mov [current_gp_registers+24], r13
-	mov [current_gp_registers+32], r12
-	mov [current_gp_registers+40], r11
-	mov [current_gp_registers+48], r10
-	mov [current_gp_registers+56], r9
-	mov [current_gp_registers+64], r8
-	mov [current_gp_registers+72], rsi
-	mov [current_gp_registers+80], rdi
-	mov [current_gp_registers+88], rbp
-	mov [current_gp_registers+96], rdx
-	mov [current_gp_registers+104], rcx
-	mov [current_gp_registers+112], rbx
-	
-%endmacro
+
 
 
 %macro irqHandlerMaster 1
@@ -120,7 +95,7 @@ SECTION .text
     mov rax, 0x400000 
     mov [rsp], rax
     iretq
-	
+
 %endmacro
 
 
