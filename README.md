@@ -1,4 +1,4 @@
-# Kernel
+# Kernel ADVERTENCIA LA EXCEPCION IMPRIME MAL REGISTROS
 
 | Integrante | Legajo |
 | --- | --- |
